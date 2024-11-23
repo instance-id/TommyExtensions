@@ -486,8 +486,9 @@ namespace Tommy.Serializer
                 {IsString: true}   => node.AsString.Value,
                 {IsFloat: true}    => Convert.ChangeType(node.AsFloat.Value, typeCode),
                 {IsInteger: true}  => Convert.ChangeType(node.AsInteger.Value, typeCode),
-                {IsDateTime: true} => node.AsDateTime.Value,
-                _ => throw new ArgumentOutOfRangeException(nameof(node), node, null)
+                {IsDateTimeLocal: true} => node.AsDateTimeLocal.Value,
+				{IsDateTimeOffset: true} => node.AsDateTimeOffset.Value,
+				_ => throw new ArgumentOutOfRangeException(nameof(node), node, null)
             };  // @formatter:on
         }
 
@@ -499,8 +500,9 @@ namespace Tommy.Serializer
                 {IsString: true}   => node.AsString.Value,
                 {IsFloat: true}    => Convert.ChangeType(node.AsFloat.Value, propertyType),
                 {IsInteger: true}  => Convert.ChangeType(node.AsInteger.Value, propertyType),
-                {IsDateTime: true} => node.AsDateTime.Value,
-                _ => throw new ArgumentOutOfRangeException(nameof(node), node, null)
+				{IsDateTimeLocal: true} => node.AsDateTimeLocal.Value,
+				{IsDateTimeOffset: true} => node.AsDateTimeOffset.Value,
+				_ => throw new ArgumentOutOfRangeException(nameof(node), node, null)
             }; // @formatter:on
         }
 
@@ -514,8 +516,9 @@ namespace Tommy.Serializer
                 { } v when v == typeof(string) => new TomlString {Value = (string) obj != null ? obj.ToString() : ""},
                 { } v when v.IsFloat() => new TomlFloat {Value = FloatConverter(valueType, obj)},
                 { } v when v.IsInteger() => new TomlInteger {Value = (long) Convert.ChangeType(obj, TypeCode.Int64)},
-                { } v when v == typeof(DateTime) => new TomlDateTime {Value = (DateTime) obj},
-                _ => throw new Exception($"Was not able to process item {valueType.Name}")
+                { } v when v == typeof(DateTime) => new TomlDateTimeLocal {Value = (DateTime) obj},
+				{ } v when v == typeof(DateTimeOffset) => new TomlDateTimeOffset {Value = (DateTimeOffset)obj},
+				_ => throw new Exception($"Was not able to process item {valueType.Name}")
             }; // @formatter:on
         }
 

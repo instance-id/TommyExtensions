@@ -13,7 +13,8 @@ namespace Tommy.Serializer.Tests
     public class TestData
     {
         public DateTime TestDate   { get; set; } = DateTime.Now;
-        public string TestString   { get; set; } = "Test String";
+		public DateTimeOffset TestDateOffset { get; set; } = DateTimeOffset.Now;
+		public string TestString   { get; set; } = "Test String";
         public bool TestBool       { get; set; } = true;
         public int TestInt         { get; set; } = 1;
         public ulong TestUlong     { get; set; } = 444543646457048001;

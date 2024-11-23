@@ -18,7 +18,10 @@ namespace Tommy.Serializer.Tests
         [TommyComment(" Comment for date property")]
         public DateTime TestDateComment { get; set; }
 
-        [TommyComment(" Comment for Dictionary<K,V> property")]
+		[TommyComment(" Comment for dateOffset property")]
+		public DateTimeOffset TestDateOffsetComment { get; set; }
+
+		[TommyComment(" Comment for Dictionary<K,V> property")]
         public Dictionary<string, string> TestDictionaryComment { get; set; }
 
         [TommyComment(" Comment for string property\n Testing second line comment\n" +
