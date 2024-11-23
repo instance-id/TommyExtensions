@@ -41,7 +41,7 @@ namespace Tommy.Serializer.Tests
             var nodeArray = nodes as SortNode[];
             var nodeList = nodeArray!.ToList();
             var sortedNodes = nodeList.SortNodes((from l in nodeList select l.SortOrder).Max());
-            var expectedResults = new[] {"intField", "floatField", "stringField", "boolField", "dateField"};
+            var expectedResults = new[] {"intField", "floatField", "stringField", "boolField", "dateField", "dateOffField"};
 
             for (var i = 0; i < sortedNodes.Count; i++)
                 sortedNodes[i].Name.Should().Be(expectedResults[i]);
@@ -155,8 +155,9 @@ namespace Tommy.Serializer.Tests
             {typeof(ulong), typeof(TomlInteger)},
             {typeof(string), typeof(TomlString)},
             {typeof(decimal), typeof(TomlFloat)},
-            {typeof(DateTime), typeof(TomlDateTime)}
-        };
+            {typeof(DateTime), typeof(TomlDateTimeLocal)},
+			{typeof(DateTimeOffset), typeof(TomlDateTimeOffset)},
+		};
 
         // public static IEnumerable<object[]> TomlNodeData
         // {
@@ -176,12 +177,14 @@ namespace Tommy.Serializer.Tests
         public static IEnumerable<object[]> SortNodeData // @formatter:off
         {
             get { yield return new object[] {new SortNode[] {
-                new SortNode { Name = "boolField",   SortOrder = -1, Value = new TomlBoolean  { Comment = "Comment for bool",   Value = true}},
-                new SortNode { Name = "stringField", SortOrder = 2,  Value = new TomlString   { Comment = "Comment for string", Value = "String Value s"}},
-                new SortNode { Name = "floatField",  SortOrder = 1,  Value = new TomlFloat    { Comment = "Comment for float",  Value = 1.432f}},
-                new SortNode { Name = "intField",    SortOrder = 0,  Value = new TomlInteger  { Comment = "Comment for int",    Value = 6}},
-                new SortNode { Name = "dateField",   SortOrder = -1, Value = new TomlDateTime { Comment = "Comment for Date",   Value =
-                    DateTime.Parse("2020-12-12 15:36:16")}}}}; }
+                    new SortNode { Name = "boolField",   SortOrder = -1, Value = new TomlBoolean  { Comment = "Comment for bool",   Value = true}},
+                    new SortNode { Name = "stringField", SortOrder = 2,  Value = new TomlString   { Comment = "Comment for string", Value = "String Value s"}},
+                    new SortNode { Name = "floatField",  SortOrder = 1,  Value = new TomlFloat    { Comment = "Comment for float",  Value = 1.432f}},
+                    new SortNode { Name = "intField",    SortOrder = 0,  Value = new TomlInteger  { Comment = "Comment for int",    Value = 6}},
+                    new SortNode { Name = "dateField",   SortOrder = -1, Value = new TomlDateTimeLocal { Comment = "Comment for Date", Value = DateTime.Parse("2020-12-12 15:36:16")}},
+                    new SortNode { Name = "dateOffField",SortOrder = -1, Value = new TomlDateTimeOffset{ Comment = "Comment for DateOffset", Value = DateTimeOffset.Parse("2020-12-12 15:36:16+01:00")}},
+                }}; 
+            }
         } // @formatter:on
 
         public static IEnumerable<object[]> ArrayData
